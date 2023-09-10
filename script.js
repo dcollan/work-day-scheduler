@@ -51,7 +51,7 @@ $(document).ready(function () {
       var savedText = localStorage.getItem("hour-" + hour);
       // If there's a saved event, populate the textarea with it
       if (savedText) {
-        textArea.val(savedText);
+        enterText.val(savedText);
       }
 
       // Append timeLabel, enterText, and save to timeblock
@@ -68,4 +68,15 @@ $(document).ready(function () {
   // Call the function to create the timeblocks and initialize the page
   setTimeBlocks();
 
+  // Enabled 'click' event in case user clicks on save button. This will immediately attach items to local storage with the hour and text content.
+  // Gained insight using on() from W3 Schools source: 
+  // https://www.w3schools.com/jquery/event_on.asp#:~:text=The%20on()%20method%20attaches,selected%20elements%20and%20child%20elements.
+  $(".saveBtn").on("click", function () {
+    // Obtain ID of associated textarea (e.g. ID "hour-9")
+    var hourBadge = $(this).siblings(".description").attr("id");
+    // Obtain text that has been entered in textarea
+    var inputtedText = $(this).siblings(".description").val();
+    // Save the entered text in local storage with the hour ID as the key
+    localStorage.setItem(hourBadge, inputtedText);
+  });
 });
