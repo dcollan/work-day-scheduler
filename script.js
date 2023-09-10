@@ -36,11 +36,36 @@ $(document).ready(function () {
         .addClass("btn saveBtn col-2 col-md-1")
         .attr("aria-label", "save")
         .append($("<i>").addClass("fas fa-save").attr("aria-hidden", "true"));
+
+      // Apply logic indicating whether the hour is in the past, present, or future
+      if (hour < currentHour) {
+        timeBlock.addClass("past");
+      } else if (hour === currentHour) {
+        timeBlock.addClass("present");
+      } else {
+        timeBlock.addClass("future");
+      }
+
+      // Obtain text stored in local storage (in case user refreshes page)
+      //Referred to mdn web docs link for guidance: https://developer.mozilla.org/en-US/docs/Web/API/Storage/getItem
+      var savedText = localStorage.getItem("hour-" + hour);
+      // If there's a saved event, populate the textarea with it
+      if (savedText) {
+        textArea.val(savedText);
+      }
+
+      // Append timeLabel, enterText, and save to timeblock
+      timeBlock.append(timeLabel, enterText, save);
+
+      // Append timeblock to the container with class "container-lg" from HTML file
+      $(".container-lg").append(timeBlock);
     }
   }
+
   // Call setCurrentDate function
   setCurrentDate();
 
   // Call the function to create the timeblocks and initialize the page
   setTimeBlocks();
+
 });
